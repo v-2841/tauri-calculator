@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Калькулятор для квадратных уравнений</title>
+        <link rel="stylesheet" href="styles.css" />
+    </head>
+    <body>
+        <div class="input-data">
+            <h3>Калькулятор для квадратных уравнений</h3>
+            <hr />
+            <h4 class="equation">
+                <span id="a-span">a</span>x<sup>2</sup>
+                <span id="b-span">+ b</span>x <span id="c-span">+ c</span> = 0
+            </h4>
+            <div class="coefficient-form">
+                <p>
+                    <span class="label">Коэффициент a:</span>
+                    <input type="number" id="a" />
+                </p>
+                <p>
+                    <span class="label">Коэффициент b:</span>
+                    <input type="number" id="b" />
+                </p>
+                <p>
+                    <span class="label">Коэффициент c:</span>
+                    <input type="number" id="c" />
+                </p>
+            </div>
+        </div>
+        <div class="answer">
+            <h4 id="answer">Ответ</h4>
+            <p id="x0">x = <span id="x0-value"></span></p>
+            <p id="x1">x<sub>1</sub> = <span id="x1-value"></span></p>
+            <p id="x2">x<sub>2</sub> = <span id="x2-value"></span></p>
+        </div>
+    </body>
+</html>
