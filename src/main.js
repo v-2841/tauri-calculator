@@ -1,18 +1,25 @@
 const { invoke } = window.__TAURI__.core;
 
-let greetInputEl;
-let greetMsgEl;
+async function calculateRoots() {
+  const a = parseFloat(document.getElementById("a").value) || 0;
+  const b = parseFloat(document.getElementById("b").value) || 0;
+  const c = parseFloat(document.getElementById("c").value) || 0;
 
-async function greet() {
-  // Learn more about Tauri commands at https://tauri.app/develop/calling-rust/
-  greetMsgEl.textContent = await invoke("greet", { name: greetInputEl.value });
+  const result = await window.__TAURI__.invoke("calculate_roots", { a, b, c });
+
+  document.getElementById("x0").style.display = result.x0 ? "block" : "none";
+  document.getElementById("x0-value").innerText = result.x0 || "";
+
+  document.getElementById("x1").style.display = result.x1 !== null ? "block" : "none";
+  document.getElementById("x1-value").innerText = result.x1 || "";
+
+  document.getElementById("x2").style.display = result.x2 !== null ? "block" : "none";
+  document.getElementById("x2-value").innerText = result.x2 || "";
 }
 
-window.addEventListener("DOMContentLoaded", () => {
-  greetInputEl = document.querySelector("#greet-input");
-  greetMsgEl = document.querySelector("#greet-msg");
-  document.querySelector("#greet-form").addEventListener("submit", (e) => {
-    e.preventDefault();
-    greet();
-  });
-});
+// Подключение события input ко всем полям
+window.onload = () => {
+  document.getElementById("a").addEventListener("input", calculateRoots);
+  document.getElementById("b").addEventListener("input", calculateRoots);
+  document.getElementById("c").addEventListener("input", calculateRoots);
+};
