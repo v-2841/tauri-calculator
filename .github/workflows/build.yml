@@ -33,18 +33,20 @@ jobs:
             - name: Install Rust stable
               uses: dtolnay/rust-toolchain@stable
 
-            - uses: tauri-apps/tauri-action@v0
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              with:
-                  tagName: equation-calculator-v__VERSION__
-                  releaseName: "Equation Calculator v__VERSION__"
-                  releaseBody: "See the assets to download this version and install."
+            # - uses: tauri-apps/tauri-action@v0
+            #   env:
+            #       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+            #   with:
+            #       tagName: equation-calculator-v__VERSION__
+            #       releaseName: "Equation Calculator v__VERSION__"
+            #       releaseBody: "See the assets to download this version and install."
 
             - name: Get Version
               id: get_version
               run: |
-                  echo "VERSION=$(cat src-tauri/Cargo.toml | grep version | cut -d '"' -f 2)" >> $GITHUB_ENV
+                  VERSION=$(grep -m 1 '^version' src-tauri/Cargo.toml | awk -F ' = ' '{print $2}' | tr -d '"')
+                  echo "VERSION=$VERSION" >> $GITHUB_ENV
+                  echo $VERSION
 
             - name: Get Release Info
               id: get_release
