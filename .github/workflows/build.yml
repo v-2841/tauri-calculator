@@ -42,11 +42,11 @@ jobs:
             #       releaseBody: "See the assets to download this version and install."
 
             - name: Get Version
+              uses: SebRollen/toml-action@v1.2.0
               id: get_version
-              run: |
-                  VERSION=$(grep -m 1 '^version' src-tauri/Cargo.toml | awk -F ' = ' '{print $2}' | tr -d '"')
-                  echo "VERSION=$VERSION" >> $GITHUB_ENV
-                  echo $VERSION
+              with:
+                  file: src-tauri/Cargo.toml
+                  field: package.version
 
             - name: Get Release Info
               id: get_release
@@ -57,7 +57,7 @@ jobs:
                       const release = await github.rest.repos.getReleaseByTag({
                           owner,
                           repo,
-                          tag: `equation-calculator-v${process.env.VERSION}`,
+                          tag: `equation-calculator-v${{ steps.get_version.outputs.value }}`,
                       });
                       return release.data.upload_url;
                   result-encoding: string
@@ -67,5 +67,5 @@ jobs:
               with:
                   upload_url: ${{ steps.get_release.outputs.result }}
                   asset_path: src-tauri/target/release/equation-calculator.exe
-                  asset_name: equation-calculator-v${process.env.VERSION}.exe
+                  asset_name: equation-calculator-v${{ steps.get_version.outputs.value }}.exe
                   asset_content_type: application/octet-stream
