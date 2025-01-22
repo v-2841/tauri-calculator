@@ -41,26 +41,24 @@ jobs:
                   releaseName: "Equation Calculator v__VERSION__"
                   releaseBody: "See the assets to download this version and install."
 
-            - name: Get Release Info
-              id: get_release
-              uses: actions/github-script@v6
-              with:
-                  script: |
-                      const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
-                      const release = await github.rest.repos.getReleaseByTag({
-                          owner,
-                          repo,
-                          tag: `equation-calculator-v${process.env.VERSION}`,
-                      });
-                      return release.data.upload_url;
-                  result-encoding: string
-              env:
-                  VERSION: "__VERSION__"
+            # - name: Get Release Info
+            #   id: get_release
+            #   uses: actions/github-script@v6
+            #   with:
+            #       script: |
+            #           const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+            #           const release = await github.rest.repos.getReleaseByTag({
+            #               owner,
+            #               repo,
+            #               tag: `equation-calculator-v__VERSION__`,
+            #           });
+            #           return release.data.upload_url;
+            #       result-encoding: string
 
-            - name: Upload release executable
-              uses: actions/upload-release-asset@v1
-              with:
-                  upload_url: ${{ steps.get_release.outputs.result }}
-                  asset_path: src-tauri/target/release/equation-calculator.exe
-                  asset_name: equation-calculator.exe
-                  asset_content_type: application/octet-stream
+            # - name: Upload release executable
+            #   uses: actions/upload-release-asset@v1
+            #   with:
+            #       upload_url: ${{ steps.get_release.outputs.result }}
+            #       asset_path: src-tauri/target/release/equation-calculator.exe
+            #       asset_name: equation-calculator-v__VERSION__.exe
+            #       asset_content_type: application/octet-stream
