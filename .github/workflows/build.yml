@@ -1,8 +1,8 @@
-name: 'Build Windows app'
+name: "Build Windows app"
 
 on:
     push:
-        branches: 
+        branches:
             - main
 
 jobs:
@@ -14,13 +14,53 @@ jobs:
         steps:
             - uses: actions/checkout@v4
 
-            - name: istall Rust stable
+            - name: Cache Cargo
+              uses: actions/cache@v3
+              with:
+                  path: $HOME/.cargo/registry
+                  key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-cargo-
+
+            - name: Cache Tauri
+              uses: actions/cache@v3
+              with:
+                  path: ./src-tauri/target
+                  key: ${{ runner.os }}-tauri-${{ hashFiles('**/Cargo.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-tauri-
+
+            - name: Install Rust stable
               uses: dtolnay/rust-toolchain@stable
 
             - uses: tauri-apps/tauri-action@v0
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               with:
-                tagName: equation-calculator-v__VERSION__
-                releaseName: 'Equation Calculator v__VERSION__'
-                releaseBody: 'See the assets to download this version and install.'
+                  tagName: equation-calculator-v__VERSION__
+                  releaseName: "Equation Calculator v__VERSION__"
+                  releaseBody: "See the assets to download this version and install."
+
+            - name: Get Release Info
+              id: get_release
+              uses: actions/github-script@v6
+              with:
+                  script: |
+                      const [owner, repo] = process.env.GITHUB_REPOSITORY.split('/');
+                      const release = await github.rest.repos.getReleaseByTag({
+                          owner,
+                          repo,
+                          tag: `equation-calculator-v${process.env.VERSION}`,
+                      });
+                      return release.data.upload_url;
+                  result-encoding: string
+              env:
+                  VERSION: "__VERSION__"
+
+            - name: Upload release executable
+              uses: actions/upload-release-asset@v1
+              with:
+                  upload_url: ${{ steps.get_release.outputs.result }}
+                  asset_path: src-tauri/target/release/equation-calculator.exe
+                  asset_name: equation-calculator.exe
+                  asset_content_type: application/octet-stream

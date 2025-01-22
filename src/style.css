@@ -1,100 +1,100 @@
 body {
-  margin: 0;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #f8f3ff;
-  padding: 1rem;
-  box-sizing: border-box;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f3ff;
+    padding: 1rem;
+    box-sizing: border-box;
 }
 
 .calculator {
-  background-color: white;
-  padding: 2rem;
-  border-radius: 1rem;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-  width: 90%;
-  max-width: 500px;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 500px;
 }
 
 h1 {
-  color: #6b4b8a;
-  text-align: center;
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
+    color: #6b4b8a;
+    text-align: center;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
 }
 
 .equation {
-  text-align: center;
-  color: #8a6ba4;
-  font-size: 1.2rem;
-  margin-bottom: 2rem;
+    text-align: center;
+    color: #8a6ba4;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
 }
 
 .inputs {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    margin-bottom: 2rem;
 }
 
 .input-group {
-  display: grid;
-  grid-template-columns: 120px 1fr;
-  align-items: center;
-  gap: 0.5rem;
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    gap: 0.5rem;
 }
 
 input {
-  width: 100%;
-  max-width: 200px;
-  padding: 0.5rem;
-  border: 2px solid #e6d5ff;
-  border-radius: 0.5rem;
-  font-size: 1rem;
-  transition: border-color 0.3s;
-  box-sizing: border-box;
+    width: 100%;
+    max-width: 200px;
+    padding: 0.5rem;
+    border: 2px solid #e6d5ff;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    transition: border-color 0.3s;
+    box-sizing: border-box;
 }
 
 input:focus {
-  outline: none;
-  border-color: #8a6ba4;
+    outline: none;
+    border-color: #8a6ba4;
 }
 
 label {
-  color: #6b4b8a;
-  white-space: nowrap;
+    color: #6b4b8a;
+    white-space: nowrap;
 }
 
 .result {
-  background-color: #f8f3ff;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  color: #6b4b8a;
+    background-color: #f8f3ff;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    color: #6b4b8a;
 }
 
 .result p {
-  margin: 0;
-  line-height: 1.5;
+    margin: 0;
+    line-height: 1.5;
 }
 
 @media (min-width: 768px) {
-  .inputs {
-    flex-direction: row;
-    justify-content: center;
-  }
+    .inputs {
+        flex-direction: row;
+        justify-content: center;
+    }
 
-  .input-group {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+    .input-group {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+    }
 
-  input {
-    width: 120px;
-  }
+    input {
+        width: 120px;
+    }
 }
 
 /* Removes the default spin button */
