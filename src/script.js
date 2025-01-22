@@ -7,7 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
       if (b === 0) {
         return "Это не уравнение";
       }
-      return `x = ${(-c / b).toFixed(2)}`;
+      return `x = ${(-c / b)}`;
     }
 
     const discriminant = b * b - 4 * a * c;
@@ -15,10 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (discriminant > 0) {
       const x1 = (-b + Math.sqrt(discriminant)) / (2 * a);
       const x2 = (-b - Math.sqrt(discriminant)) / (2 * a);
-      return `x₁ = ${x1.toFixed(2)}<br>x₂ = ${x2.toFixed(2)}`;
+      return `x₁ = ${x1}<br>x₂ = ${x2}`;
     } else if (discriminant === 0) {
       const x = -b / (2 * a);
-      return `x = ${x.toFixed(2)}`;
+      return `x = ${x}`;
     } else {
       return "Нет рациональных решений";
     }
