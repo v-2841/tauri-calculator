@@ -69,5 +69,5 @@ jobs:
               with:
                   upload_url: ${{ steps.get_release.outputs.result }}
                   asset_path: ./src-tauri/target/release/equation-calculator.exe
-                  asset_name: equation-calculator-v${{ steps.get_version.outputs.value }}.exe
+                  asset_name: Equation.Calculator_${{ steps.get_version.outputs.value }}_x64.exe
                   asset_content_type: application/octet-stream
