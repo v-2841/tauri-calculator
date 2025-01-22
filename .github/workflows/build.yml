@@ -1,71 +1,26 @@
-name: Build Tauri App
+name: 'Build Windows app'
 
 on:
-  push:
-    branches:
-      - main
-  pull_request:
+    push:
+        branches: 
+            - main
 
 jobs:
-  build-windows:
-    name: Build for Windows (.exe)
-    runs-on: windows-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
+    publish-tauri:
+        permissions:
+            contents: write
+        runs-on: windows-latest
 
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
+        steps:
+            - uses: actions/checkout@v4
 
-      - name: Install Tauri CLI
-        run: cargo install tauri-cli
+            - name: istall Rust stable
+              uses: dtolnay/rust-toolchain@stable
 
-      - name: Build Windows Executable
-        run: cargo tauri build --target x86_64-pc-windows-msvc
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: tauri-windows-exe
-          path: src-tauri/target/release/bundle/exe/*.exe
-
-  build-android:
-    name: Build for Android (.apk)
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Rust
-        uses: actions-rs/toolchain@v1
-        with:
-          toolchain: stable
-          profile: minimal
-
-      - name: Install Android NDK
-        uses: actions/setup-android@v3
-        with:
-          ndk: true
-
-      - name: Set up environment variables
-        run: |
-          echo "export PATH=$PATH:$ANDROID_HOME/ndk-bundle" >> $GITHUB_ENV
-          echo "export PATH=$PATH:$ANDROID_HOME/platform-tools" >> $GITHUB_ENV
-
-      - name: Install Tauri CLI
-        run: cargo install tauri-cli
-
-      - name: Add ARMv8 Android Target
-        run: rustup target add aarch64-linux-android
-
-      - name: Build unsigned Android APK for ARMv8
-        run: cargo tauri android --debug --no-sign
-
-      - name: Upload artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: tauri-android-apk
-          path: src-tauri/target/android/debug/*.apk
+            - uses: tauri-apps/tauri-action@v0
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                tagName: calc-v__VERSION__
+                releaseName: 'Equation Calculator v__VERSION__'
+                releaseBody: 'See the assets to download this version and install.'
