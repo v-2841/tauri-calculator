@@ -1,30 +1,33 @@
 {
-  "$schema": "https://schema.tauri.app/config/2",
-  "productName": "Equation Calculator",
-  "identifier": "com.v-2841.equation-calculator",
-  "build": {
-    "frontendDist": "../src"
-  },
-  "app": {
-    "withGlobalTauri": true,
-    "windows": [
-      {
-        "title": "Equation Calculator",
-        "width": 800,
-        "height": 600
-      }
-    ],
-    "security": {
-      "csp": "default-src 'self';"
+    "$schema": "https://schema.tauri.app/config/2",
+    "productName": "Equation Calculator",
+    "identifier": "com.v-2841.equation-calculator",
+    "build": {
+        "frontendDist": "../src"
+    },
+    "app": {
+        "withGlobalTauri": true,
+        "windows": [
+            {
+                "title": "Equation Calculator",
+                "width": 800,
+                "height": 600
+            }
+        ],
+        "security": {
+            "csp": "default-src 'self';"
+        }
+    },
+    "bundle": {
+        "active": true,
+        "targets": ["nsis"],
+        "license": "MIT",
+        "licenseFile": "../LICENSE.md",
+        "icon": ["../src/assets/favicon.ico"],
+        "windows": {
+            "nsis": {
+                "languages": ["Russian"]
+            }
+        }
     }
-  },
-  "bundle": {
-    "active": true,
-    "targets": ["nsis"],
-    "license": "MIT",
-    "licenseFile": "../LICENSE.md",
-    "icon": [
-      "../src/assets/favicon.ico"
-    ]
-  }
 }
