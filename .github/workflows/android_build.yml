@@ -1,0 +1,34 @@
+name: "Build Android app"
+
+on:
+    workflow_dispatch:
+
+jobs:
+    publish-apk:
+        permissions:
+            contents: write
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Cache Android SDK
+              uses: actions/cache@v3
+              with:
+                  path: /opt/android-studio
+                  key: ${{ runner.os }}-android-studio
+
+            - name: Install Android SDK
+              run: |
+                  sudo apt-get update
+                  sudo apt-get install -y openjdk-11-jdk
+                  wget https://developer.android.com/studio/#downloads -O android-studio.tar.gz
+                  tar -xvf android-studio.tar.gz -C /opt/
+                  export JAVA_HOME=/opt/android-studio/jbr
+                  export ANDROID_HOME=/opt/android-sdk
+                  mkdir -p $ANDROID_HOME
+                  /opt/android-studio/bin/studio.sh --import-settings /opt/android-studio/config/settings.jar
+                  /opt/android-studio/bin/sdkmanager --install "platform-tools"
+                  /opt/android-studio/bin/sdkmanager --install "ndk"
+                  /opt/android-studio/bin/sdkmanager --install "build-tools"
+                  /opt/android-studio/bin/sdkmanager --install "cmdline-tools"
+                  /opt/android-studio/bin/sdkmanager --licenses
