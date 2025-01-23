@@ -1,7 +1,9 @@
 name: "Build Android app"
 
 on:
-    workflow_dispatch:
+    push:
+        branches:
+            - main
 
 jobs:
     publish-apk:
@@ -21,13 +23,6 @@ jobs:
               run: |
                   sudo dpkg --add-architecture i386
                   sudo apt-get update
-                  sudo apt-get install libc6:i386 libncurses6:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
-                  wget -q https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip
-                  sudo mkdir -p /opt/android-studio/cmdline-tools/latest
-                  sudo unzip -q commandlinetools-linux-11076708_latest.zip -d /opt/android-studio/cmdline-tools/latest
-                  rm commandlinetools-linux-11076708_latest.zip
-                  export PATH=$PATH:/opt/android-studio/cmdline-tools/latest/bin
-                  yes | sdkmanager --licenses
-                  yes | sdkmanager "platforms"
-                  yes | sdkmanager "platform-tools"
-                  yes | sdkmanager "build-tools"
+                  sudo apt-get install libc6:i386 libncurses6:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386 google-android-cmdline-tools-9.0-installer
+                  export JAVA_HOME=/opt/android-studio/jbr
+                  echo y | sudo /opt/android-studio/cmdline-tools/bin/sdkmanager --install 'platforms' 'platform-tools' 'build-tools' 'ndk'
