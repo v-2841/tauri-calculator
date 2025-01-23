@@ -1,0 +1,39 @@
+name: "Build Android app"
+
+on:
+    push:
+        branches:
+            - main
+
+jobs:
+    publish-android:
+        runs-on: windows-latest
+        steps:
+            - uses: actions/checkout@v4
+
+            - name: Cache Cargo
+              uses: actions/cache@v3
+              with:
+                  path: C:\Users\runneradmin\.cargo\registry
+                  key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-cargo-
+
+            - name: Cache Tauri
+              uses: actions/cache@v3
+              with:
+                  path: ./src-tauri/target
+                  key: ${{ runner.os }}-tauri-${{ hashFiles('**/Cargo.lock') }}
+                  restore-keys: |
+                      ${{ runner.os }}-tauri-
+
+            - name: Install Rust stable
+              uses: dtolnay/rust-toolchain@stable
+
+            - uses: tauri-apps/tauri-action@mobile
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              with:
+                  tagName: equation-calculator-v__VERSION__
+                  releaseName: "Equation Calculator v__VERSION__"
+                  releaseBody: "See the assets to download this version and install."
