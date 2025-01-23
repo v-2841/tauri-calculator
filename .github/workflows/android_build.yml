@@ -19,17 +19,19 @@ jobs:
 
             - name: Install Android SDK
               run: |
+                  sudo dpkg --add-architecture i386
                   sudo apt-get update
-                  sudo apt-get install libc6:i386 libncurses5:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
+                  sudo apt-get install libc6:i386 libncurses6:i386 libstdc++6:i386 lib32z1 libbz2-1.0:i386
                   sudo apt-get install -y openjdk-11-jdk
                   wget https://redirector.gvt1.com/edgedl/android/studio/ide-zips/2024.2.2.13/android-studio-2024.2.2.13-linux.tar.gz -O android-studio.tar.gz
                   tar -xvf android-studio.tar.gz -C /opt/
                   export JAVA_HOME=/opt/android-studio/jbr
-                  export ANDROID_HOME=/opt/android-sdk
-                  mkdir -p $ANDROID_HOME
                   /opt/android-studio/bin/studio.sh --import-settings /opt/android-studio/config/settings.jar
                   /opt/android-studio/bin/sdkmanager --install "platform-tools"
                   /opt/android-studio/bin/sdkmanager --install "ndk"
                   /opt/android-studio/bin/sdkmanager --install "build-tools"
                   /opt/android-studio/bin/sdkmanager --install "cmdline-tools"
                   /opt/android-studio/bin/sdkmanager --licenses
+                  export ANDROID_HOME="$HOME/Android/Sdk"
+                  export NDK_HOME="$ANDROID_HOME/ndk/$(ls -1 $ANDROID_HOME/ndk)"
+                  rustup target add aarch64-linux-android armv7-linux-androideabi i686-linux-android x86_64-linux-android
